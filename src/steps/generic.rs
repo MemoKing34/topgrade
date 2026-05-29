@@ -832,7 +832,7 @@ pub fn run_pip3_update(ctx: &ExecutionContext) -> Result<()> {
         .output_checked_utf8()
         .map_err(|_| SkipStep("pip does not exist".to_string()))?;
 
-    let check_extern_managed_script = "import sysconfig; from os import path; print('Y') if path.isfile(path.join(sysconfig.get_path('stdlib'), 'EXTERNALLY-MANAGED')) else print('N')";
+    let check_extern_managed_script = "import sysconfig; from os import path; print('Y') if path.isfile(path.join(sysconfig.get_path('stdlib'), 'EXTERNALLY-MANAGED')) or sysconfig.get_platform().startswith('android') else print('N')";
     let output = ctx
         .execute(&python3)
         .always()
